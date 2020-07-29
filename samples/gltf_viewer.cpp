@@ -96,9 +96,9 @@ struct App {
     } scene;
 
     struct ColorGradingOptions {
-        bool enabled = false;
+        bool enabled = true;
         int quality = static_cast<int>(ColorGrading::QualityLevel::MEDIUM);
-        int toneMapping = static_cast<int>(ColorGrading::ToneMapping::ACES_LEGACY);
+        int toneMapping = static_cast<int>(ColorGrading::ToneMapping::ACES);
         int temperature = 0;
         int tint = 0;
         math::float3 outRed{1.0f, 0.0f, 0.0f};
@@ -147,7 +147,8 @@ struct App {
         }
     } colorGradingOptions;
 
-    ColorGradingOptions lastColorGradingOptions;
+    // zero-initialized so that the first time through is always dirty.
+    ColorGradingOptions lastColorGradingOptions = { 0 };
 
     ColorGrading* colorGrading = nullptr;
 
@@ -158,7 +159,7 @@ struct App {
     int currentCamera = 0;
 };
 
-static const char* DEFAULT_IBL = "venetian_crossroads_2k";
+static const char* DEFAULT_IBL = "default_env";
 
 static void printUsage(char* name) {
     std::string exec_name(Path(name).getName());
